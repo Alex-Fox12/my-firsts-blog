@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block login %}
+    <script>
+        $(document).ready(function () {
+            $('input').addClass('styler');
+            $('label').before('<br>')
+            $('label').after('<br>')
+        })
+    </script>
+    <div class = "col-lg-offset-3">
+        <form action="/auth/register/" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value = "Зарегистрироваться" class="btn btn-success">
+        </form>
+    </div>
+{% endblock %}

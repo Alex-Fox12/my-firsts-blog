@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block links %}
+{% load staticfiles %}
+
+{% endblock %}
+{% block title %}
+{{ blog.title }} | Blog
+{% endblock %}
+
+{% block content %}
+    <article class = "article">
+    <h1>{{ blog.title }}</h1>
+    <h4>Автор: {{ blog.user }}</h4>
+    <p class = "datetime">&nbsp;{{ blog.datetime }}&nbsp;</p>
+    <small>Категория: <a href = "{% url 'Blog:category' blog.post_cat_id %}">{{ blog.post_cat }}</a></small>
+    <br>
+    <p><a href = "{% url 'Blog:addlikes' blog.id %}"><img src="{% static 'images/34_facebook_thumbs_up_image_free_cliparts_that_y.jpg' %}" width ='25px' height = '25px' alt="likes: " title = "Кому понравилось"></a>{{ blog.post_likes }}</p>
+    {% if blog.upload %}
+        <img src = "{{ blog.upload.url }}" alt="{{ blog.AltText }}">
+        <br>
+        <br>
+        <br>
+    {% endif %}
+    <p class = "blog-content">{{ blog.content }}</p>
+
+    <hr>
+    <div class = "col-xs-12 comments">
+    <script>
+        $(document).ready(function () {
+           $('textarea').addClass('col-xs-8');
+
+           $('textarea').addClass('col-sm-6');
+
+           $('textarea').addClass('col-md-4');
+
+           $('textarea').addClass('col-lg-3');
+
+           $('textarea').addClass('styler');
+
+           $('textarea').attr('rows', '5');
+           $('textarea').after('<br><br><br><br><br><br><br>');
+           $('input').styler();
+           $('img').addClass('Images');
+            /*function windowSize() {
+                if ($('img').width() >= $(window).width()) {
+                    $('img').attr('width', $(window).width());
+                } else {
+                    $('img').removeAttr('width');
+                }
+            }
+
+$(window).load(windowSize); // при загрузке
+$(window).resize(windowSize); // при изменении размеров
+// или "два-в-одном", вместо двух последних строк:
+//$(window).on('load resize',windowSize);*/
+        });
+    </script>
+        {% if username %}
+        <form action="{% url 'Blog:addcomment' blog.id %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p>Добавить комментарий: </p>
+            {{ form }}
+            <br>
+            <input type ="submit" class = "btn btn-primary" value ="Добавить">
+            <input type="reset" class = "btn btn-warning" value = "Сбросить">
+        </form>
+        {% else %}
+            <h4 style = "color:red;">Вам необходимо зарегестрироваться, чтобы оставлять комментарии!</h4>
+        {% endif %}
+        <h3>Комментарии: </h3>
+            {% for comment in comments %}
+                <p><a href="#">Автор комментария: {{ comment.user }}</a></p>
+                <p class = "datetime">&nbsp;{{ comment.pubdate }}&nbsp;</p>
+                <p>{{ comment.com_text }} </p><br>
+                {% if comment.ComImage %}
+                    <img src ="{{ comment.ComImage.url }}" alt = "">
+                {% endif %}
+            {% endfor %}
+    </div>
+    </article>
+{% endblock %}

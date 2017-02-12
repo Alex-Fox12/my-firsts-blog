@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block links %}
+    <script src = "https://unpkg.com/masonry-layout@4.1.1/dist/masonry.pkgd.min.js"></script>
+     <style>
+        .item {
+          float: left;
+        }
+    </style>
+{% endblock %}
+
+{% block title %}
+    {{ category.categories }}
+{% endblock title %}
+
+{% block content %}
+
+<script type="text/javascript">
+  $(document).ready(function(){
+	$('#container').masonry({
+// указываем элемент-контейнер в котором расположены блоки для динамической верстки
+	  itemSelector: '.item',
+// указываем класс элемента являющегося блоком в нашей сетке
+          singleMode: false,
+// true - если у вас все блоки одинаковой ширины
+	  isResizable: true,
+// перестраивает блоки при изменении размеров окна
+	  isAnimated: true,
+// анимируем перестроение блоков
+          animationOptions: {
+	      queue: false,
+	      duration: 500
+	  }
+// опции анимации - очередь и продолжительность анимации
+	});
+	/*	function windowSize(){
+            if ($(window).width() <= '700'){
+                $('.item').addClass('pull-right');
+            } else{
+                $('.item').removeClass('col-xs-12');
+            }
+    }
+$(window).load(windowSize); // при загрузке
+$(window).resize(windowSize); // при изменении размеров*/
+  });
+</script>
+
+        {% for posts in blog %}
+
+               <div class="item">
+                <div class="thumbnail">
+                    <img src="http://placehold.it/600x340" alt="" class = "img-responsive">
+                    <div class=" caption ">
+                        <h4><a href = "{% url 'Blog:detail' posts.id %}">{{ posts.title }}</a></h4>
+                        Дата публикации: {{ posts.datetime }}<br><br>
+                        {{ posts.description }}
+                    </div>
+                </div>
+              </div>
+
+         {% endfor %}
+
+
+{% endblock content %}

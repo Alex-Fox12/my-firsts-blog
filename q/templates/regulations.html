@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Правила сайта</h1>
+    {% if regulations %}
+        {% for reg in regulations  %}
+            Дата публикации Правил(а):<p class = "datetime">{{ req.pubdate }}</p>
+            <p>{{ req.text }}</p>
+        {% endfor %}
+    {% else %}
+        <h1>Пока что нет правил</h1>
+    {% endif %}
+{% endblock %}

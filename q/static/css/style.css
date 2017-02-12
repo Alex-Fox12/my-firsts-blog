@@ -1,0 +1,19 @@
+ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.datetime{
+    background-color: #ccc;
+    display: inline-block;
+}
+label[for=id_upload]{
+    position: relative;
+    top: -10px;
+}
+.Images{
+    max-width: 100%;
+}
+.blog-content{
+    text-indent: 20px;
+}

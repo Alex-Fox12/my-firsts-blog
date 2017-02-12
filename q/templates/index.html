@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block links %}
+    <script src = "https://unpkg.com/masonry-layout@4.1.1/dist/masonry.pkgd.min.js"></script>
+    <style>
+        .item {
+         float: left;
+        }
+    </style>
+{% endblock %}
+
+{% block title %}
+    Начальная страница
+{% endblock title %}
+
+{% block content %}
+
+    <script type="text/javascript">
+  $(document).ready(function(){
+	$('#container').masonry({
+// указываем элемент-контейнер в котором расположены блоки для динамической верстки
+	  itemSelector: '.item',
+// указываем класс элемента являющегося блоком в нашей сетке
+          singleMode: false,
+// true - если у вас все блоки одинаковой ширины
+	  isResizable: true,
+// перестраивает блоки при изменении размеров окна
+	  isAnimated: true,
+// анимируем перестроение блоков
+          animationOptions: {
+	      queue: false,
+	      duration: 500
+	  }
+// опции анимации - очередь и продолжительность анимации
+	});
+	/*function windowSize(){
+        if ($(window).width() <= '700'){
+            $('.item').attr('class', 'col-xs-12');
+        } else{
+            $('.item').removeClass('col-xs-12');}
+
+$(window).load(windowSize); // при загрузке
+$(window).resize(windowSize); // при изменении размеров
+// или "два-в-одном", вместо двух последних строк:
+//$(window).on('load resize',windowSize);*/
+  });
+</script>
+
+        {% if blog %}
+
+        {% for article in blog %}
+               <div class="item">
+                <div class="thumbnail">
+                    {% if article.upload %}
+                        <img src="{{ article.upload.url }}" alt="" class = "img-responsive" width="320px" height="320px">
+                    {% else %}
+                    {% endif %}
+                    <div class="caption">
+                        <h4><a href = "{% url 'Blog:detail' article.id %}">{{ article.title }}</a></h4>
+                        Дата публикации: {{ article.datetime }}<br><br>
+                        {{ article.description }}
+                    </div>
+                </div>
+              </div>
+
+         {% endfor %}
+
+    {% else %}
+        <h1 class = "error_messages">Нет никаких статьей!</h1>
+            {% if username %}
+                <h1 style="color:blue;">Вы можете стать первым!</h1>
+            {% endif %}
+    {% endif %}
+
+{% endblock content %}
+{% block paginate %}
+            <div class="col-lg-offset-5 col-xs-offset-2 col-sm-offset-4 col-md-offset-6">
+             <ul class="pagination">
+              {% if blog_article.has_previous %}
+                  <li><a href="/page/{{ blog_article.previous_page_number }}">&laquo;</a></li>
+              {% else %}
+                  <li disabled><a href="">&laquo;</a></li>
+              {% endif %}
+              {% for page in blog_article.paginator.page_range %}
+                    {% if page == blog_article.number %}
+                        <li class="active"><a href="/page/{{ page }}">{{ page }}</a></li>
+                    {% else %}
+                        <li><a href="/page/{{ page }}">{{ page }}</a></li>
+                    {% endif %}
+              {% endfor %}
+              {% if blog_article.has_next %}
+                  <li><a href="/page/{{ blog_article.next_page_number }}">&raquo;</a></li>
+              {% else %}
+                  <li disabled><a href="">&raquo;</a></li>
+              {% endif %}
+            </ul>
+         </div>
+{% endblock %}

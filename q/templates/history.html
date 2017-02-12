@@ -1,0 +1,12 @@
+{% extends 'base.html'%}
+{% block content %}
+    <h1>История проекта и его обновления</h1>
+    {% if histoty %}
+    {% for his in histoty  %}
+        Дата публикации:<p class = "datetime">{{ his.pubdate }}</p>
+        <p>{{ his.text }}</p>
+    {% endfor %}
+    {% else %}
+        <h1>Пока что истории/обновлений нет</h1>
+    {% endif %}
+{% endblock %}

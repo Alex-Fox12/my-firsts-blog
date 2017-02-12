@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+    <script>
+        $(document).ready(function () {
+           $('label').before('<br>');
+           $('label').css('white-spacing', 'pre-line');
+           $('input, textarea').addClass('styler');
+           $('select, input').styler()
+        });
+    </script>
+    {% if username %}
+    <form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form }}
+        <input type="submit" class="styler" value="Добавить">
+    </form>
+    {% else %}
+        <h1 style="color:red;">АВТОРИЗУЙТЕСЬ</h1>
+    {% endif %}
+{% endblock %}

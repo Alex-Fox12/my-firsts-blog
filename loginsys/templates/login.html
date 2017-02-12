@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block login %}
+    <div class="col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-xs-12">
+        <form action="/auth/login/" method="post">
+            {% csrf_token %}
+            <label for="username">Имя пользователя: </label>
+            <input type="text" name = "username"id="username" class="styler">
+            <label for="password">Пароль: </label>
+            <input type="password" name ="password" id="password" class="styler">
+            <input type="submit" value = "Войти" class = "styler">&nbsp;&nbsp;
+            <a href="/auth/register/" class="btn btn-primary">Регистрация</a>
+            {% if login_error %}
+                <label style="color:red;">{{ login_error }}</label>
+            {% endif %}
+        </form>
+    </div>
+{% endblock %}
